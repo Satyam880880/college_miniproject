@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptoms Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-3xl font-bold text-center mb-6 text-blue-600">Symptoms Checker</h1>
+            
+            <form id="symptomsForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 font-bold mb-2">Age</label>
+                        <input 
+                            type="number" 
+                            id="age" 
+                            required 
+                            class="w-full px-3 py-2 border rounded-lg"
+                            min="0" 
+                            max="120"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-bold mb-2">Gender</label>
+                        <select 
+                            id="gender" 
+                            required 
+                            class="w-full px-3 py-2 border rounded-lg"
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Describe Your Symptoms</label>
+                    <textarea 
+                        id="symptomsText" 
+                        rows="4" 
+                        required 
+                        class="w-full px-3 py-2 border rounded-lg"
+                        placeholder="Describe your symptoms in detail..."
+                    ></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Select Specific Symptoms</label>
+                    <select 
+                        id="symptomsList" 
+                        multiple="multiple" 
+                        class="w-full symptoms-select"
+                    ></select>
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+                >
+                    Check Symptoms
+                </button>
+            </form>
+
+            <div id="diagnosisResults" class="mt-6 hidden">
+                <h2 class="text-2xl font-bold mb-4 text-blue-600">Diagnosis Results</h2>
+                <div id="resultContent" class="bg-gray-50 p-4 rounded-lg"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for symptoms selection
+            $('.symptoms-select').select2({
+                placeholder: 'Select symptoms',
+                minimumInputLength: 2,
+                ajax: {
+                    url: '/api/symptoms/list',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results: data.map(symptom => ({
+                                id: symptom.id,
+                                text: symptom.name
+                            }))
+                        };
+                    }
+                }
+            });
+
+            $('#symptomsForm').on('submit', async function(e) {
+                e.preventDefault();
+                
+                // Collect form data
+                const age = $('#age').val();
+                const gender = $('#gender').val();
+                const symptomsText = $('#symptomsText').val();
+                const selectedSymptoms = $('#symptomsList').val();
+
+                try {
+                    // First, parse symptoms from text
+                    const parseResponse = await fetch('/api/symptoms/parse', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ text: symptomsText })
+                    });
+                    const parsedSymptoms = await parseResponse.json();
+
+                    // Combine parsed and manually selected symptoms
+                    const allSymptoms = [
+                        ...parsedSymptoms,
+                        ...selectedSymptoms.map(id => ({ id, choice_id: 'present' }))
+                    ];
+
+                    // Get diagnosis
+                    const diagnosisResponse = await fetch('/api/symptoms/diagnose', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            age: parseInt(age),
+                            gender: gender,
+                            symptoms: allSymptoms
+                        })
+                    });
+                    const diagnosis = await diagnosisResponse.json();
+
+                    // Display results
+                    const resultContent = $('#resultContent');
+                    resultContent.html(`
+                        <h3 class="text-xl font-semibold mb-2">Possible Conditions</h3>
+                        <ul class="list-disc pl-5">
+                            ${diagnosis.conditions.map(condition => `
+                                <li>
+                                    <strong>${condition.name}</strong> 
+                                    (Probability: ${(condition.probability * 100).toFixed(2)}%)
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <p>Disclaimer: This is an AI-generated preliminary assessment. 
+                            Please consult a healthcare professional for accurate diagnosis.</p>
+                        </div>
+                    `);
+
+                    $('#diagnosisResults').removeClass('hidden');
+                } catch (error) {
+                    console.error('Diagnosis error:', error);
+                    alert('Error processing symptoms. Please try again.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+Last edited 2 minutes ago

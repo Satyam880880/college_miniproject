@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Healthcare Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        .animate-pulse-hover:hover {
+            animation: pulse 1.5s infinite;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0">                     
+                    <b> BLOOM 24*7 </b>
+                    </a>
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="text-blue-600 hover:bg-blue-100 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#about" class="text-gray-600 hover:bg-blue-100 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#services" class="text-gray-600 hover:bg-blue-100 px-3 py-2 rounded-md text-sm font-medium">Health Services</a>
+                        <a href="#symptoms-checker" class="text-gray-600 hover:bg-blue-100 px-3 py-2 rounded-md text-sm font-medium">Symptoms Checker</a>
+                        <a href="#contact" class="text-gray-600 hover:bg-blue-100 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div>
+                    <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
+                         Signup
+                    </a>
+                    <a href="#" class="bg-blue-500 text-white px-5 py-2 rounded-full hover:bg-blue-600 transition duration-300 ml-4">
+                        Login
+                   </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="pt-20 pb-12 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+            <div class="w-1/2 animate-fade-in">
+                <h1 class="text-5xl font-bold mb-6">AI-Powered Healthcare Assistant</h1>
+                <p class="text-xl mb-8">
+                    Revolutionizing healthcare with intelligent diagnostic support, 
+                    personalized health insights, and cutting-edge AI technology.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#symptoms-checker" class="bg-white text-blue-600 px-6 py-3 rounded-full hover:bg-blue-50 transition animate-pulse-hover">
+                        Check Symptoms
+                    </a>
+                    <a href="#about" class="border border-white text-white px-6 py-3 rounded-full hover:bg-white hover:text-blue-600 transition">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="w-1/2">
+                <img src="ai-image.webp" alt="Healthcare AI" class="w-full rounded-lg shadow-xl animate-fade-in">
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-blue-800">About AI-Powered Healthcare</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <i class="fas fa-brain text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Intelligent Diagnostics</h3>
+                    <p>
+                        Advanced AI algorithms analyze symptoms, medical history, 
+                        and provide preliminary diagnostic insights with high accuracy.
+                    </p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <i class="fas fa-shield-alt text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Privacy & Security</h3>
+                    <p>
+                        Your health data is encrypted and protected with state-of-the-art 
+                        security measures, ensuring complete confidentiality.
+                    </p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <i class="fas fa-chart-line text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Continuous Learning</h3>
+                    <p>
+                        Our AI constantly learns and improves, incorporating the latest 
+                        medical research and diagnostic techniques.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-blue-800">Our Health Services</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4">Symptoms Checker</h3>
+                    <p class="mb-4">
+                        Comprehensive symptom analysis using advanced AI to provide 
+                        preliminary health insights.
+                    </p>
+                    <a href="#symptoms-checker" class="text-blue-600 hover:underline">
+                        Check Symptoms Now
+                    </a>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4">Health Risk Assessment</h3>
+                    <p class="mb-4">
+                        Personalized risk evaluation based on your medical history 
+                        and current health parameters.
+                    </p>
+                    <a href="#" class="text-blue-600 hover:underline">
+                        Get Assessment
+                    </a>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4">Medical Recommendations</h3>
+                    <p class="mb-4">
+                        Tailored health recommendations and guidance based on 
+                        AI-powered analysis.
+                    </p>
+                    <a href="#" class="text-blue-600 hover:underline">
+                        View Recommendations
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Symptoms Checker Section -->
+    <section id="symptoms-checker" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-blue-800">Symptoms Checker</h2>
+            <div class="bg-blue-50 p-8 rounded-lg shadow-md">
+                <p class="text-center text-xl mb-6">
+                    Use our AI-powered Symptoms Checker to get preliminary health insights.
+                </p>
+                <div class="text-center">
+                    <a href="/symptoms-checker.html" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition">
+                        Start Symptoms Check
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-blue-800">Contact Us</h2>
+            <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Name</label>
+                        <input type="text" class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Message</label>
+                        <textarea class="w-full px-4 py-2 border rounded-lg" rows="4" required></textarea>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">HealthAI</h3>
+                    <p>Revolutionizing healthcare with intelligent AI-powered solutions.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" class="hover:text-blue-400">Home</a></li>
+                        <li><a href="#about" class="hover:text-blue-400">About</a></li>
+                        <li><a href="#services" class="hover:text-blue-400">Services</a></li>
+                        <li><a href="#contact" class="hover:text-blue-400">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul>
+                        <li><a href="#" class="hover:text-blue-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-2xl hover:text-blue-400"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-2xl hover:text-blue-400"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-2xl hover:text-blue-400"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-2xl hover:text-blue-400"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 text-center border-t border-gray-700 pt-4">
+                <p>&copy; 2024 HealthAI. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Optional: Smooth Scroll JavaScript -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom 24*7 Signup</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .signup-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .signup-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            z-index: 10;
+            position: relative;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(173, 216, 230, 0.3);
+            animation: float-bubble linear infinite;
+        }
+        @keyframes float-bubble {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.2); }
+            100% { transform: translateY(0) scale(1); }
+        }
+        .form-control {
+            border-radius: 20px;
+            padding: 10px 15px;
+        }
+        .btn-signup {
+            border-radius: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            border-color: #28a745;
+            transition: all 0.3s ease;
+        }
+        .btn-signup:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .password-strength {
+            height: 5px;
+            border-radius: 2px;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .password-weak { background-color: #dc3545; }
+        .password-medium { background-color: #ffc107; }
+        .password-strong { background-color: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="signup-wrapper" id="bubbleContainer">
+        <div class="signup-container">
+            <div class="text-center mb-4">
+                <h2>Bloom 24*7</h2>
+                <p class="text-muted">Create Your Account</p>
+            </div>
+            <form id="signupForm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="firstName" 
+                            placeholder="Enter first name" 
+                            required
+                        >
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="lastName" 
+                            placeholder="Enter last name" 
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        placeholder="Enter email" 
+                        required
+                    >
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password" 
+                        placeholder="Create a strong password" 
+                        required
+                    >
+                    <div id="passwordStrength" class="password-strength"></div>
+                    <small class="form-text text-muted">
+                        Password must be at least 8 characters long
+                    </small>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="confirmPassword" 
+                        placeholder="Repeat password" 
+                        required
+                    >
+                </div>
+                
+                <button type="submit" class="btn btn-signup btn-success w-100">Create Account</button>
+            </form>
+            <div class="text-center mt-3">
+                <small>Already have an account? <a href="#">Login</a></small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function createBubbles() {
+            const container = document.getElementById('bubbleContainer');
+            const bubbleCount = 20;
+
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+
+                // Random size between 20 and 100 pixels
+                const size = Math.random() * 80 + 20;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+
+                // Random positioning
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.top = `${Math.random() * 100}%`;
+
+                // Random animation duration
+                bubble.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                bubble.style.animationDelay = `${Math.random() * 3}s`;
+
+                container.appendChild(bubble);
+            }
+        }
+
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthEl = document.getElementById('passwordStrength');
+            
+            strengthEl.classList.remove('password-weak', 'password-medium', 'password-strong');
+            
+            if (password.length < 8) {
+                strengthEl.classList.add('password-weak');
+            } else if (password.length < 12) {
+                strengthEl.classList.add('password-medium');
+            } else {
+                strengthEl.classList.add('password-strong');
+            }
+        });
+
+        // Form submission validation
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const termsCheck = document.getElementById('termsCheck');
+
+            // Password matching check
+            if (password.value !== confirmPassword.value) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Terms and conditions check
+            if (!termsCheck.checked) {
+                alert('Please agree to the Terms and Conditions');
+                return;
+            }
+
+            // Placeholder for actual signup logic
+            alert('Signup functionality to be implemented');
+        });
+
+        // Create bubbles when page loads
+        createBubbles();
+    </script>
+</body>
+</html>
