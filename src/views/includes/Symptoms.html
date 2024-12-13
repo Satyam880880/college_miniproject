@@ -3,166 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Symptoms Checker</title>
+    <title>HealthAI - Your Personal Health Companion</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Custom animations and additional styles */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .ai-pulse:hover {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
-            <h1 class="text-3xl font-bold text-center mb-6 text-blue-600">Symptoms Checker</h1>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen font-sans">
+    
+
+    <!-- Main Content Area -->
+    <main class="pt-20 max-w-4xl mx-auto px-4">
+        <div class="bg-white shadow-xl rounded-2xl p-8 mt-6">
+            <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">HealthAI Assistant</h1>
             
-            <form id="symptomsForm">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <!-- Health Input Form -->
+            <form id="healthForm" class="space-y-6" >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-gray-700 font-bold mb-2">Age</label>
-                        <input 
-                            type="number" 
-                            id="age" 
-                            required 
-                            class="w-full px-3 py-2 border rounded-lg"
-                            min="0" 
-                            max="120"
-                        >
+                        <label class="block text-gray-700 font-medium mb-2">Age</label>
+                        <input type="number" id="age" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     </div>
                     <div>
-                        <label class="block text-gray-700 font-bold mb-2">Gender</label>
-                        <select 
-                            id="gender" 
-                            required 
-                            class="w-full px-3 py-2 border rounded-lg"
-                        >
+                        <label class="block text-gray-700 font-medium mb-2">Gender</label>
+                        <select id="gender" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             <option value="">Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
+                            <option value="other">Other</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Describe Your Symptoms</label>
-                    <textarea 
-                        id="symptomsText" 
-                        rows="4" 
-                        required 
-                        class="w-full px-3 py-2 border rounded-lg"
-                        placeholder="Describe your symptoms in detail..."
-                    ></textarea>
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">Describe Your Symptoms</label>
+                    <textarea id="symptoms" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your symptoms in detail..."></textarea>
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Select Specific Symptoms</label>
-                    <select 
-                        id="symptomsList" 
-                        multiple="multiple" 
-                        class="w-full symptoms-select"
-                    ></select>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Body Temperature</label>
+                        <input type="number" id="temperature" step="0.1" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="°C">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Heart Rate</label>
+                        <input type="number" id="heartRate" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="BPM">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Blood Pressure</label>
+                        <div class="flex space-x-2">
+                            <input type="number" id="systolic" class="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Systolic">
+                            <input type="number" id="diastolic" class="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Diastolic">
+                        </div>
+                    </div>
                 </div>
 
-                <button 
-                    type="submit" 
-                    class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300"
-                >
-                    Check Symptoms
-                </button>
+                <div class="text-center">
+                    <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-300 ai-pulse">
+                        Analyze Health
+                    </button>
+                </div>
             </form>
 
-            <div id="diagnosisResults" class="mt-6 hidden">
-                <h2 class="text-2xl font-bold mb-4 text-blue-600">Diagnosis Results</h2>
-                <div id="resultContent" class="bg-gray-50 p-4 rounded-lg"></div>
+            <!-- AI Response Area -->
+            <div id="aiResponse" class="mt-6 hidden bg-blue-50 rounded-lg p-6">
+                <h2 class="text-2xl font-bold text-blue-800 mb-4">AI Health Analysis</h2>
+                <div id="responseContent" class="text-gray-700"></div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Initialize Select2 for symptoms selection
-            $('.symptoms-select').select2({
-                placeholder: 'Select symptoms',
-                minimumInputLength: 2,
-                ajax: {
-                    url: '/api/symptoms/list',
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function (data) {
-                        return {
-                            results: data.map(symptom => ({
-                                id: symptom.id,
-                                text: symptom.name
-                            }))
-                        };
-                    }
-                }
-            });
+        document.getElementById('healthForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                symptoms: document.getElementById('symptoms').value,
+                temperature: document.getElementById('temperature').value,
+                heartRate: document.getElementById('heartRate').value,
+                systolic: document.getElementById('systolic').value,
+                diastolic: document.getElementById('diastolic').value
+            };
 
-            $('#symptomsForm').on('submit', async function(e) {
-                e.preventDefault();
-                
-                // Collect form data
-                const age = $('#age').val();
-                const gender = $('#gender').val();
-                const symptomsText = $('#symptomsText').val();
-                const selectedSymptoms = $('#symptomsList').val();
+            // Simulate AI analysis (replace with actual AI API call)
+            const aiResponse = simulateAIAnalysis(formData);
 
-                try {
-                    // First, parse symptoms from text
-                    const parseResponse = await fetch('/api/symptoms/parse', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ text: symptomsText })
-                    });
-                    const parsedSymptoms = await parseResponse.json();
-
-                    // Combine parsed and manually selected symptoms
-                    const allSymptoms = [
-                        ...parsedSymptoms,
-                        ...selectedSymptoms.map(id => ({ id, choice_id: 'present' }))
-                    ];
-
-                    // Get diagnosis
-                    const diagnosisResponse = await fetch('/api/symptoms/diagnose', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            age: parseInt(age),
-                            gender: gender,
-                            symptoms: allSymptoms
-                        })
-                    });
-                    const diagnosis = await diagnosisResponse.json();
-
-                    // Display results
-                    const resultContent = $('#resultContent');
-                    resultContent.html(`
-                        <h3 class="text-xl font-semibold mb-2">Possible Conditions</h3>
-                        <ul class="list-disc pl-5">
-                            ${diagnosis.conditions.map(condition => `
-                                <li>
-                                    <strong>${condition.name}</strong> 
-                                    (Probability: ${(condition.probability * 100).toFixed(2)}%)
-                                </li>
-                            `).join('')}
-                        </ul>
-                        <div class="mt-4 text-sm text-gray-600">
-                            <p>Disclaimer: This is an AI-generated preliminary assessment. 
-                            Please consult a healthcare professional for accurate diagnosis.</p>
-                        </div>
-                    `);
-
-                    $('#diagnosisResults').removeClass('hidden');
-                } catch (error) {
-                    console.error('Diagnosis error:', error);
-                    alert('Error processing symptoms. Please try again.');
-                }
-            });
+            // Display AI response
+            const responseArea = document.getElementById('aiResponse');
+            const responseContent = document.getElementById('responseContent');
+            responseContent.innerHTML = aiResponse;
+            responseArea.classList.remove('hidden');
         });
+
+        function simulateAIAnalysis(data) {
+            // This is a placeholder for actual AI analysis
+            let analysis = `
+                <h3 class="text-xl font-semibold mb-2">Preliminary Health Assessment</h3>
+                <p>Based on the provided information:</p>
+                <ul class="list-disc list-inside space-y-2">
+                    ${data.symptoms ? `<li>Symptoms Noted: ${data.symptoms}</li>` : ''}
+                    ${data.temperature ? `<li>Body Temperature: ${data.temperature}°C ${checkTemperature(data.temperature)}</li>` : ''}
+                    ${data.heartRate ? `<li>Heart Rate: ${data.heartRate} BPM ${checkHeartRate(data.heartRate, data.age)}</li>` : ''}
+                    ${data.systolic && data.diastolic ? `<li>Blood Pressure: ${data.systolic}/${data.diastolic} ${checkBloodPressure(data.systolic, data.diastolic)}</li>` : ''}
+                </ul>
+                <p class="mt-4 font-medium text-blue-700">Recommendation: Please consult with a healthcare professional for a comprehensive evaluation.</p>
+            `;
+            return analysis;
+        }
+
+        function checkTemperature(temp) {
+            temp = parseFloat(temp);
+            if (temp > 38) return '(High Fever 🌡️)';
+            if (temp < 36) return '(Low Temperature 🌡️)';
+            return '(Normal)';
+        }
+
+        function checkHeartRate(rate, age) {
+            rate = parseInt(rate);
+            if (rate > 100) return '(High Heart Rate ❤️)';
+            if (rate < 60) return '(Low Heart Rate ❤️)';
+            return '(Normal)';
+        }
+
+        function checkBloodPressure(systolic, diastolic) {
+            systolic = parseInt(systolic);
+            diastolic = parseInt(diastolic);
+            if (systolic > 140 || diastolic > 90) return '(High Blood Pressure ⚠️)';
+            if (systolic < 90 || diastolic < 60) return '(Low Blood Pressure ⚠️)';
+            return '(Normal)';
+        }
     </script>
 </body>
 </html>
-Last edited 2 minutes ago
