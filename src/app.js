@@ -47,11 +47,11 @@ app.get('/', (req, res) => {
 
     app.get('/doctor', (req, res) => {
       const doctor = {
-          name: "Dr. Raj Singh",
+          name: "Dr. Ravi Singh",
           specialization: "Cardiology",
           yearsOfExperience: 15,
           contact: "8578451477",
-          consultationFee: 250,
+          consultationFee: 10,
           clinicAddress: "Sharda Hospital Greater Noida, State: UP"
       };
       res.render('users/doctor.ejs', { doctor });
